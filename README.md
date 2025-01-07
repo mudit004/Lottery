@@ -58,8 +58,8 @@ Lottery is a decentralized raffle system built on Ethereum, leveraging Chainlink
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/lottery.git
-   cd lottery
+   git clone https://github.com/mudit004/Lottery
+   cd Lottery
    ```
 
 2. Install dependencies:
@@ -72,11 +72,8 @@ Lottery is a decentralized raffle system built on Ethereum, leveraging Chainlink
    ```plaintext
    PRIVATE_KEY=<Your Private Key>
    RPC_URL=<Your Ethereum RPC URL>
-   VRF_COORDINATOR=<Chainlink VRF Coordinator Address>
-   GAS_LANE=<Chainlink Gas Lane>
-   SUBSCRIPTION_ID=<Chainlink Subscription ID>
-   CALLBACK_GAS_LIMIT=<Gas Limit for Callback>
    ```
+4. Update the values according to your subscription in `HelperConfig.s.sol` file
 
 ---
 
@@ -99,7 +96,7 @@ Lottery is a decentralized raffle system built on Ethereum, leveraging Chainlink
 1. Configure deployment parameters in the script located in `script/`.
 2. Deploy the contract using Foundry:
    ```bash
-   forge script script/Deploy.s.sol --rpc-url <network-rpc-url> --private-key <private-key> --broadcast
+   forge script script/DeployRaffle.s.sol --rpc-url <network-rpc-url> --private-key <private-key> --broadcast
    ```
 
 ---
@@ -114,35 +111,3 @@ Lottery is a decentralized raffle system built on Ethereum, leveraging Chainlink
 
 3. **Winner Selection**:
    The winner is selected automatically using Chainlink VRF, and funds are transferred to the winner's address.
-
----
-
-## Project Structure
-
-```plaintext
-├── contracts
-│   └── Raffle.sol         # Main contract
-├── script
-│   └── Deploy.s.sol       # Deployment script
-├── test
-│   └── Raffle.t.sol       # Unit tests for the contract
-├── .env                   # Environment variables
-├── foundry.toml           # Foundry configuration
-├── README.md              # Project documentation
-```
-
----
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-## Author
-
-**mudit004**  
-[GitHub Profile](https://github.com/mudit004)
-
-Feel free to contribute, raise issues, or reach out with feedback!
-```
