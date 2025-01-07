@@ -10,7 +10,6 @@ abstract contract CodeConstants {
     uint96 constant MOCK_BASE_FEE = 0.25 ether;
     uint96 constant MOCK_GAS_PRICE = 1e9;
     int256 constant MOCK_WEI_PER_UNIT_LINK = 4e15;
-    uint256 constant SUBSCRIPTION_ID = 0; // Enter your original subscription ID here
     uint256 constant ETH_SEPOLIA_CHAIN_ID = 11155111;
     uint256 constant LOCAL_CHAIN_ID = 31337;
 }
@@ -48,7 +47,7 @@ contract HelperConfig is CodeConstants, Script {
         }
     }
 
-    function getSepoliaEthConfig() public pure returns (NetworkConfig memory) {
+    function getSepoliaEthConfig() public view returns (NetworkConfig memory) {
         return
             NetworkConfig({
                 entranceFee: 0.01 ether,
@@ -56,7 +55,7 @@ contract HelperConfig is CodeConstants, Script {
                 vrfCoordinator: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B,
                 gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
                 callbackGasLimit: 500000,
-                subscriptionId: SUBSCRIPTION_ID,
+                subscriptionId: vm.envUint("SUBSCRIPTION_ID"),
                 link: 0x779877A7B0D9E8603169DdbD7836e478b4624789
             });
     }

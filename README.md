@@ -71,7 +71,9 @@ Lottery is a decentralized raffle system built on Ethereum, leveraging Chainlink
    Create a `.env` file and add the following variables:
    ```plaintext
    PRIVATE_KEY=<Your Private Key>
-   RPC_URL=<Your Ethereum RPC URL>
+   SEPOLIA_RPC_URL=<Your Sepolia RPC URL>
+   ETHERSCAN_API_KEY=<Your ETHERSCAN_API_KEY>
+   SUBSCRIPTION_ID=<Your chainlink subscription id>
    ```
 4. Update the values according to your subscription in `HelperConfig.s.sol` file
 
