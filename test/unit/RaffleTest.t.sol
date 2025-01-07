@@ -28,6 +28,7 @@ contract RaffleTest is Test {
     event WinnerPicked(address indexed winner);
 
     function setUp() public {
+        vm.setEnv("SUBSCRIPTION_ID", "0");
         (raffle, config) = new DeployRaffle().deployContract();
         HelperConfig.NetworkConfig memory helperConfig = config.getConfig();
         // console.log(helperConfig.entranceFee);
