@@ -6,18 +6,25 @@ import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VR
 import {LinkToken} from "test/Mocks/LinkToken.sol";
 
 abstract contract CodeConstants {
-    /** VRF Mock Values */
+    /**
+     * VRF Mock Values
+     */
     uint96 constant MOCK_BASE_FEE = 0.25 ether;
     uint96 constant MOCK_GAS_PRICE = 1e9;
     int256 constant MOCK_WEI_PER_UNIT_LINK = 4e15;
     uint256 constant ETH_SEPOLIA_CHAIN_ID = 11155111;
     uint256 constant LOCAL_CHAIN_ID = 31337;
 }
+
 contract HelperConfig is CodeConstants, Script {
-    /** Errors */
+    /**
+     * Errors
+     */
     error HelperConfig__ChainIdNotFound(uint256 chainID);
 
-    /** Structs */
+    /**
+     * Structs
+     */
     struct NetworkConfig {
         uint256 entranceFee;
         uint256 interval;
@@ -35,9 +42,7 @@ contract HelperConfig is CodeConstants, Script {
         networkConfigs[ETH_SEPOLIA_CHAIN_ID] = getSepoliaEthConfig();
     }
 
-    function getConfigByChainId(
-        uint256 chainID
-    ) public returns (NetworkConfig memory) {
+    function getConfigByChainId(uint256 chainID) public returns (NetworkConfig memory) {
         if (networkConfigs[chainID].vrfCoordinator != address(0)) {
             return networkConfigs[chainID];
         } else if (chainID == LOCAL_CHAIN_ID) {
@@ -48,16 +53,15 @@ contract HelperConfig is CodeConstants, Script {
     }
 
     function getSepoliaEthConfig() public view returns (NetworkConfig memory) {
-        return
-            NetworkConfig({
-                entranceFee: 0.01 ether,
-                interval: 30,
-                vrfCoordinator: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B,
-                gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
-                callbackGasLimit: 500000,
-                subscriptionId: vm.envUint("SUBSCRIPTION_ID"),
-                link: 0x779877A7B0D9E8603169DdbD7836e478b4624789
-            });
+        return NetworkConfig({
+            entranceFee: 0.01 ether,
+            interval: 30,
+            vrfCoordinator: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B,
+            gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
+            callbackGasLimit: 500000,
+            subscriptionId: vm.envUint("SUBSCRIPTION_ID"),
+            link: 0x779877A7B0D9E8603169DdbD7836e478b4624789
+        });
     }
 
     function getConfig() public returns (NetworkConfig memory) {
@@ -71,11 +75,8 @@ contract HelperConfig is CodeConstants, Script {
 
         // deploy mock anvil chain
         vm.startBroadcast();
-        VRFCoordinatorV2_5Mock vrfCoordinatorV2_5Mock = new VRFCoordinatorV2_5Mock(
-                MOCK_BASE_FEE,
-                MOCK_GAS_PRICE,
-                MOCK_WEI_PER_UNIT_LINK
-            );
+        VRFCoordinatorV2_5Mock vrfCoordinatorV2_5Mock =
+            new VRFCoordinatorV2_5Mock(MOCK_BASE_FEE, MOCK_GAS_PRICE, MOCK_WEI_PER_UNIT_LINK);
         vm.stopBroadcast();
 
         localNetworkConfig = NetworkConfig({
