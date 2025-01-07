@@ -1,66 +1,148 @@
-## Foundry
+# Lottery - A Blockchain-Based Raffle System
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
 
-Foundry consists of:
+Lottery is a decentralized raffle system built on Ethereum, leveraging Chainlink's VRF (Verifiable Random Function) and subscription features to ensure a secure, unbiased, and automated winner selection process. The project is written in Solidity and utilizes the Foundry framework for development and testing.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+---
 
-## Documentation
+## Features
 
-https://book.getfoundry.sh/
+- **Secure and Transparent Raffle**: Uses Chainlink VRF v2.5 to generate verifiable random numbers for selecting winners.
+- **Automated Processes**: Employs Chainlink Keepers for upkeep checks, ensuring smooth and autonomous operation.
+- **Subscription Management**: Utilizes Chainlink's subscription feature to manage funding for VRF requests.
+- **User-Friendly**: Participants can enter the raffle with a simple transaction, and winners are automatically picked based on randomness.
+
+---
+
+## Contract Details
+
+### **Raffle.sol**
+
+- **Key Functionalities**:
+  - **enterRaffle()**: Allows users to enter the raffle by paying the entrance fee.
+  - **checkUpkeep()**: Checks if conditions are met for upkeep (e.g., enough time has passed, raffle is open, etc.).
+  - **performUpkeep()**: Initiates the winner selection process by requesting a random number.
+  - **fulfillRandomWords()**: Chainlink callback function to determine the winner based on the random number.
+
+- **State Variables**:
+  - `i_entranceFee`: The fee required to enter the raffle.
+  - `i_interval`: Duration of the raffle in seconds.
+  - `s_lastTimeStamp`: Tracks the last upkeep timestamp.
+  - `s_players`: List of participants in the raffle.
+  - `s_recentWinner`: Address of the most recent raffle winner.
+  - `s_raffleState`: Current state of the raffle (OPEN or CALCULATING).
+
+- **Events**:
+  - `RaffleEnter`: Emitted when a user enters the raffle.
+  - `WinnerPicked`: Emitted when a winner is selected.
+  - `RequestedRaffleWinner`: Emitted when a random number is requested.
+
+---
+
+## Dependencies
+
+- **Solidity v0.8.19**
+- **Chainlink VRF v2.5**
+- **Foundry for Development and Testing**: Includes `forge-std` library for debugging and testing.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Foundry installed: [Foundry Documentation](https://book.getfoundry.sh/).
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/lottery.git
+   cd lottery
+   ```
+
+2. Install dependencies:
+   ```bash
+   forge install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file and add the following variables:
+   ```plaintext
+   PRIVATE_KEY=<Your Private Key>
+   RPC_URL=<Your Ethereum RPC URL>
+   VRF_COORDINATOR=<Chainlink VRF Coordinator Address>
+   GAS_LANE=<Chainlink Gas Lane>
+   SUBSCRIPTION_ID=<Chainlink Subscription ID>
+   CALLBACK_GAS_LIMIT=<Gas Limit for Callback>
+   ```
+
+---
+
+## Running Tests
+
+1. Run the test suite:
+   ```bash
+   forge test
+   ```
+
+2. View detailed logs:
+   ```bash
+   forge test -vv
+   ```
+
+---
+
+## Deployment
+
+1. Configure deployment parameters in the script located in `script/`.
+2. Deploy the contract using Foundry:
+   ```bash
+   forge script script/Deploy.s.sol --rpc-url <network-rpc-url> --private-key <private-key> --broadcast
+   ```
+
+---
 
 ## Usage
 
-### Build
+1. **Enter the Raffle**:
+   Call the `enterRaffle()` function with the required entrance fee.
 
-```shell
-$ forge build
+2. **Automated Upkeep**:
+   Chainlink Keepers will monitor the contract and perform upkeep when conditions are met.
+
+3. **Winner Selection**:
+   The winner is selected automatically using Chainlink VRF, and funds are transferred to the winner's address.
+
+---
+
+## Project Structure
+
+```plaintext
+├── contracts
+│   └── Raffle.sol         # Main contract
+├── script
+│   └── Deploy.s.sol       # Deployment script
+├── test
+│   └── Raffle.t.sol       # Unit tests for the contract
+├── .env                   # Environment variables
+├── foundry.toml           # Foundry configuration
+├── README.md              # Project documentation
 ```
 
-### Test
+---
 
-```shell
-$ forge test
-```
+## License
 
-### Format
+This project is licensed under the MIT License.
 
-```shell
-$ forge fmt
-```
+---
 
-### Gas Snapshots
+## Author
 
-```shell
-$ forge snapshot
-```
+**mudit004**  
+[GitHub Profile](https://github.com/mudit004)
 
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+Feel free to contribute, raise issues, or reach out with feedback!
 ```
